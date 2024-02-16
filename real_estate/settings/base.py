@@ -1,5 +1,6 @@
 from datetime import timedelta
 from pathlib import Path
+import os
 
 import environ
 
@@ -14,7 +15,7 @@ environ.Env.read_env(BASE_DIR / ".env")
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY", default="Ja0mzIBu5bnzpWt2DFylqPzXtc4r0C_pEZkK2j8LVCaNwr9RmAE",)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
@@ -44,7 +45,7 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "djoser",
     "rest_framework_simplejwt",
-    "djcelery_email",
+    # "djcelery_email",
 ]
 
 LOCAL_APPS = [
@@ -52,8 +53,8 @@ LOCAL_APPS = [
     "apps.users",
     "apps.profiles",
     "apps.ratings",
-    "apps.properties",
-    "apps.enquiries",
+    # "apps.properties",
+    # "apps.enquiries",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -117,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Africa/Kigali"
+TIME_ZONE = "Africa/Harare"
 
 USE_I18N = True
 
@@ -155,10 +156,11 @@ SIMPLE_JWT = {
     ),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "SIGNING_KEY": env("SIGNING_KEY"),
+    "SIGNING_KEY": os.environ.get('SIGNING_KEY'),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
+print(os.environ.get('SIGNING_KEY'))
 
 DJOSER = {
     "LOGIN_FIELD": "email",
@@ -220,3 +222,4 @@ logging.config.dictConfig(
         },
     }
 )
+
